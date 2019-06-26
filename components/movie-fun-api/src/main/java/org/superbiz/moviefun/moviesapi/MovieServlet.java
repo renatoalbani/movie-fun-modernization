@@ -1,4 +1,4 @@
-/**
+package org.superbiz.moviefun.moviesapi; /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -14,8 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.superbiz.moviefun.movies;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -34,12 +35,14 @@ public class MovieServlet extends HttpServlet {
 
     private static final long serialVersionUID = -5832176047021911038L;
 
+    private static final Logger LOG = LoggerFactory.getLogger(MovieServlet.class);
+
     public static int PAGE_SIZE = 5;
 
-    private MoviesBean moviesBean;
+    private MovieClient movieClient;
 
-    public MovieServlet(MoviesBean moviesBean) {
-        this.moviesBean = moviesBean;
+    public MovieServlet(MovieClient movieClient) {
+        this.movieClient = movieClient;
     }
 
     @Override
@@ -57,15 +60,23 @@ public class MovieServlet extends HttpServlet {
 
         if ("Add".equals(action)) {
 
+            LOG.info("INICIO...........");
+
             String title = request.getParameter("title");
             String director = request.getParameter("director");
             String genre = request.getParameter("genre");
             int rating = Integer.parseInt(request.getParameter("rating"));
             int year = Integer.parseInt(request.getParameter("year"));
 
-            Movie movie = new Movie(title, director, genre, rating, year);
+            MovieInfo movie = new MovieInfo(title, director, genre, rating, year);
 
-            moviesBean.addMovie(movie);
+            LOG.info("ADD A NEW MOVIE...........");
+
+            movieClient.addMovie(movie);
+
+            LOG.info("DO A REDIRECT TO MOVIEFUN...........");
+
+
             response.sendRedirect("moviefun");
             return;
 
@@ -73,24 +84,30 @@ public class MovieServlet extends HttpServlet {
 
             String[] ids = request.getParameterValues("id");
             for (String id : ids) {
-                moviesBean.deleteMovieId(new Long(id));
+                movieClient.deleteMovieId(new Long(id));
             }
 
             response.sendRedirect("moviefun");
             return;
 
         } else {
+
+            LOG.info("INICIO...........");
+
             String key = request.getParameter("key");
             String field = request.getParameter("field");
 
             int count = 0;
 
             if (StringUtils.isEmpty(key) || StringUtils.isEmpty(field)) {
-                count = moviesBean.countAll();
+                LOG.info("COUNT ALL...........");
+                count = movieClient.countAll().getBody().getCount();
+
+                LOG.info("COUNT RESPONSE::::::::::::::>>>>>>>>> {}", count);
                 key = "";
                 field = "";
             } else {
-                count = moviesBean.count(field, key);
+                count = movieClient.count(field, key).getBody().getCount();
             }
 
             int page = 1;
@@ -114,12 +131,12 @@ public class MovieServlet extends HttpServlet {
             }
 
             int start = (page - 1) * PAGE_SIZE;
-            List<Movie> range;
+            List<MovieInfo> range;
 
             if (StringUtils.isEmpty(key) || StringUtils.isEmpty(field)) {
-                range = moviesBean.findAll(start, PAGE_SIZE);
+                range = (movieClient.findAll(start, PAGE_SIZE)).getBody();
             } else {
-                range = moviesBean.findRange(field, key, start, PAGE_SIZE);
+                range = (movieClient.findRange(field, key, start, PAGE_SIZE)).getBody();
             }
 
             int end = start + range.size();

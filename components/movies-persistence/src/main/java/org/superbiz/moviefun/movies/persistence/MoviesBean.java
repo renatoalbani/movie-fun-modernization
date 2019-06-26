@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.superbiz.moviefun.movies;
+package org.superbiz.moviefun.movies.persistence;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.superbiz.moviefun.movies.Movie;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

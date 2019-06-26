@@ -1,6 +1,7 @@
-package org.superbiz.moviefun.albums;
+package org.superbiz.moviefun.albums.persistence;
 
 import org.springframework.stereotype.Component;
+import org.superbiz.moviefun.albums.Album;
 
 import java.util.List;
 

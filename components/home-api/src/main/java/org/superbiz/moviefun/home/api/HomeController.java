@@ -1,13 +1,13 @@
-package org.superbiz.moviefun;
+package org.superbiz.moviefun.home.api;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.superbiz.moviefun.albums.Album;
-import org.superbiz.moviefun.albums.AlbumFixtures;
-import org.superbiz.moviefun.albums.AlbumsBean;
+import org.superbiz.moviefun.albums.persistence.AlbumFixtures;
+import org.superbiz.moviefun.albums.persistence.AlbumsBean;
 import org.superbiz.moviefun.movies.Movie;
-import org.superbiz.moviefun.movies.MovieFixtures;
-import org.superbiz.moviefun.movies.MoviesBean;
+import org.superbiz.moviefun.movies.persistence.MovieFixtures;
+import org.superbiz.moviefun.movies.persistence.MoviesBean;
 
 import java.util.Map;
 

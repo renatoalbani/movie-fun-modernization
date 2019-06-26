@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.superbiz.moviefun.albums;
+package org.superbiz.moviefun.albums.persistence;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.superbiz.moviefun.albums.Album;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

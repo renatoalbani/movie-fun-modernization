@@ -73,6 +73,7 @@
 
   <form class="movie-input-form form-inline" action="moviefun"
         method="post">
+    <sec:csrfInput />
     <p>Add Movie</p>
     <input type="text" name="title" placeholder="Title" size="29"/> <input
       type="text" name="director" placeholder="Director" size="17"/> <input
